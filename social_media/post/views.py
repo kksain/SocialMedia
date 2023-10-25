@@ -18,8 +18,6 @@ class PostView(APIView):
         * Return a list of all posts.
         """
         data = []
-        # x = Post.objects.filter(user =2)
-        # print(x,'data of user id 1')
         for post in Post.objects.all():
             data.append({
                 'id': post.id,
@@ -28,7 +26,6 @@ class PostView(APIView):
                 'modified_at': post.modified_at
             })
         return Response(data)
-
 
     def post(self, request, format=None):
         """
@@ -52,9 +49,10 @@ class PostView(APIView):
 
 
 class DeletePostView(APIView):
-     """
-    * Return a list of user's all posts.
-     """
+    """
+    View to delete a post.
+    """
+
     def get_object(self, post_id):
         try:
             return Post.objects.get(id=post_id)
@@ -62,15 +60,12 @@ class DeletePostView(APIView):
             raise Http404
 
     def post(self, request, format=None):
-         """
-       * View to delete a post.
-       """
         post_id = request.data.get('post_id')
         _post = self.get_object(post_id)
         _post.delete()
         return Response({
             "success": True,
-            "message": "Post delete successfully",
+            "message": "Post deleted successfully",
             "data": []
         }, status=status.HTTP_204_NO_CONTENT)
 
@@ -88,7 +83,7 @@ class LikeView(APIView):
         Return a list of all posts.
         """
         data = []
-    
+
         for item in Like.objects.all():
             data.append({
                 'user_id': item.user_id,
@@ -132,11 +127,12 @@ class LikeView(APIView):
 
 class CommentView(APIView):
     """
-    * View to list all comments on a post.
+    View to list all comments on a post.
     """
-    def get(self, request, format=None,):
+
+    def get(self, request, format=None):
         """
-        * Return a list of all posts.
+        Return a list of all posts.
         """
         data = []
 
@@ -149,7 +145,6 @@ class CommentView(APIView):
             })
         return Response(data)
 
-        
     def get_object(self, post_id):
         try:
             return Comment.objects.get(post_id=post_id)
@@ -157,9 +152,9 @@ class CommentView(APIView):
             return None
 
     def post(self, request, format=None):
-         """
-        * View to comment on a post.
-         """
+        """
+        View to comment on a post.
+        """
         user_id = request.data.get('user_id')
         post_id = request.data.get('post_id')
         text = request.data.get('text')
