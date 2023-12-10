@@ -16,8 +16,8 @@
 ## Apply database migrations:
 - python manage.py migrate
 
-## create superuser
-- python manage.py createsuperuser 
+## Run the development server:
+- python manage.py runserver
 
 ## A Django REST framework API that handles operations related to posts, likes, and comments. Below is a brief documentation for the code:
 
